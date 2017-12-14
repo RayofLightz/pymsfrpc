@@ -166,10 +166,20 @@ class Client(object):
         str(ses_id)
         res = self.send_command(["session.meterperter_read",self.token,ses_id])
         return res
+    def run_module(self,_type,name,HOST,PORT,payload=False):
+        #module.execute
+        # moduletype moduleName
+        if payload != False:
+            d = ["module.execute",self.token,_type,name,{"LHOST":HOST,"LPOST":PORT}]
+        else:
+            d = ["module.execute",self.token,_type,name,{"RHOST":HOST,"RHOST":PORT}]
+        res = self.send_command(d)
+        return res
+
 # this if statement is for testing funtions inside of auth
 # only put tests here
 if __name__ == "__main__":
-    auth = Client("127.0.0.1","msf","xIHdRxpe")
+    auth = Client("127.0.0.1","msf","yFdkc6fB")
     print(auth.get_version())
     print(auth.list_consoles())
     print(auth.create_console())
@@ -177,3 +187,4 @@ if __name__ == "__main__":
     print(auth.write_console(1,"ls"))
     print(auth.destroy_console(1))
     print(auth.list_sessions())
+    print(auth.run_module("exploit","ms17_010_eternalblue","1.1.1.1","1"))
