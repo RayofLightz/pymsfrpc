@@ -44,7 +44,7 @@ the b tack before the index str.
 .. code-block:: python
 
   from pymsfrpc import msfrpc 
-  ip = "ypur server ip"
+  ip = "your server ip"
   port = "your server port"
   user = "your username"
   passwd = "your passwd"
@@ -71,7 +71,7 @@ Docs and refferance
    It takes arguments for the ip of the server, the username and the password.
    
    Client.get_version()
-     Returns a binary formated dict with ruby and metasploit versions
+     Returns a binary formated dict with the ruby and metasploit versions
 
    Client.list_consoles()
      Returns a binary formated dict with the consoles and each ones id, prompt and if they are busy
@@ -113,7 +113,7 @@ Docs and refferance
      **PAYLOAD MUST BE TRUE IF USING THE PAYLOAD TYPE**
 Port other meathods
 ===================
-  The metasploit has multiple more meathods in the pro version. I can't
+  The metasploit project has more meathods in the pro version. I can't
   properly test any of the modules becuase I don't own a copy of the pro
   version. So instead I can show you how one would port the meathod.
 .. highlight:: python
