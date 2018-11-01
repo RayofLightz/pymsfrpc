@@ -52,18 +52,17 @@ class Client(object):
         self.client.request("POST","/api",body=self.options,headers=self.headers)
         c = self.client.getresponse()
         if c.status != 200:
-           raise ConnectionError()
-           print("Connection Error")
+            print("Connection Error")
+            raise ConnectionError()
+        res = msgpack.unpackb(c.read())
+        print(res)
+        if res[b'result'] == b'success':
+            self.token = res[b'token']
+            print("Token recived:> %s",self.token)
         else:
-            res = msgpack.unpackb(c.read())
-            print(res)
-            if res[b'result'] == b'success':
-                self.token = res[b'token']
-                print("Token recived:> %s",self.token)
-            else:
-                raise AuthError()
-                print("Authentication failed")
-                sys.exit()
+            print("Authentication failed")
+            sys.exit()
+            raise AuthError()
     def send_command(self,options):
         self.options = options
         self.client.request("POST","/api/1.0",body=self.options,headers=self.headers)
@@ -156,7 +155,7 @@ class Client(object):
         # session.meterperter_write
         # writes to a meterpreter session
         # <cmd> sessionid
-        str(ses_id)
+        session = str(ses_id)
         res = self.send_command(["session.meterperter_write",self.token,session,data])
         return res
 
@@ -170,16 +169,16 @@ class Client(object):
         #module.execute
         # moduletype moduleName
         if payload != False:
-            d = ["module.execute",self.token,_type,name,{"LHOST":HOST,"LPOST":PORT}]
+            d = ["module.execute",self.token,_type,name,{"LHOST":HOST,"LPORT":PORT}]
         else:
-            d = ["module.execute",self.token,_type,name,{"RHOST":HOST,"RHOST":PORT}]
+            d = ["module.execute",self.token,_type,name,{"RHOST":HOST,"RPORT":PORT}]
         res = self.send_command(d)
         return res
 
 # this if statement is for testing funtions inside of auth
 # only put tests here
 if __name__ == "__main__":
-    auth = Client("127.0.0.1","msf","yFdkc6fB")
+    auth = Client("127.0.0.1","msf","yFdkc6fB") # Change password accordingly to random generated (or user-given) password from msgrpc 
     print(auth.get_version())
     print(auth.list_consoles())
     print(auth.create_console())
